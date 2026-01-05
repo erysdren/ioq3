@@ -326,6 +326,45 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 #endif
 
+//================================================================= HAIKU ===
+
+#ifdef __HAIKU__
+
+#define OS_STRING "haiku"
+#define ID_INLINE inline
+#define PATH_SEP '/'
+
+#if defined(__x86_64__) || defined(__amd64__)
+# define ARCH_STRING "x86_64"
+# define HAVE_VM_COMPILED
+#elif defined(__i386__)
+# define ARCH_STRING "x86"
+# define HAVE_VM_COMPILED
+#elif defined(__aarch64__)
+# define ARCH_STRING "arm64"
+#elif defined(__arm__)
+# define ARCH_STRING "arm"
+# define HAVE_VM_COMPILED
+#elif defined(__powerpc64__) || defined(__ppc64__)
+# define ARCH_STRING "ppc64"
+# define HAVE_VM_COMPILED
+#elif defined(__powerpc__) || defined(__ppc__)
+# define ARCH_STRING "ppc"
+# define HAVE_VM_COMPILED
+#elif defined(__alpha__)
+# define ARCH_STRING "alpha"
+#endif
+
+#if __FLOAT_WORD_ORDER == __BIG_ENDIAN
+#define Q3_BIG_ENDIAN
+#else
+#define Q3_LITTLE_ENDIAN
+#endif
+
+#define DLL_EXT ".so"
+
+#endif
+
 //================================================================== Q3VM ===
 
 #ifdef Q3_VM
