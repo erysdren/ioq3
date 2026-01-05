@@ -20,3 +20,9 @@ list(APPEND COMMON_LIBRARIES
     ${CMAKE_DL_LIBS}    # Dynamic loader
     m                   # Math library
 )
+
+if(CMAKE_SYSTEM_NAME STREQUAL "Haiku")
+    list(APPEND COMMON_LIBRARIES
+        network         # Network library
+    )
+endif()
