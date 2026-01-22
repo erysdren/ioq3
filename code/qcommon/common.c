@@ -2532,7 +2532,7 @@ static void Com_WriteCDKey( const char *filename, const char *ikey ) {
 	fileHandle_t	f;
 	char			fbuffer[MAX_OSPATH];
 	char			key[17];
-#ifndef _WIN32
+#if !defined(_WIN32) && !defined(__DREAMCAST__)
 	mode_t			savedumask;
 #endif
 
@@ -2546,7 +2546,7 @@ static void Com_WriteCDKey( const char *filename, const char *ikey ) {
 		return;
 	}
 
-#ifndef _WIN32
+#if !defined(_WIN32) && !defined(__DREAMCAST__)
 	savedumask = umask(0077);
 #endif
 	f = FS_BaseDir_FOpenFileWrite_HomeState( fbuffer );
@@ -2563,7 +2563,7 @@ static void Com_WriteCDKey( const char *filename, const char *ikey ) {
 
 	FS_FCloseFile( f );
 out:
-#ifndef _WIN32
+#if !defined(_WIN32) && !defined(__DREAMCAST__)
 	umask(savedumask);
 #else
 	;

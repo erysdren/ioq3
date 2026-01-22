@@ -32,7 +32,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #include <stdlib.h>
 #include <dirent.h>
 #include <unistd.h>
+#ifndef __DREAMCAST__
 #include <sys/mman.h>
+#endif
 #include <sys/time.h>
 #include <pwd.h>
 #include <libgen.h>
@@ -87,6 +89,9 @@ Sys_Exec
 */
 static int Sys_Exec( void )
 {
+#ifdef __DREAMCAST__
+	return -1;
+#else
 	pid_t pid = fork( );
 
 	if( pid < 0 )
@@ -111,6 +116,7 @@ static int Sys_Exec( void )
 
 		return -1;
 	}
+#endif
 }
 
 #ifdef __APPLE__
@@ -384,6 +390,9 @@ Sys_ShouldUseLegacyHomePath
 */
 static qboolean Sys_ShouldUseLegacyHomePath(void)
 {
+#ifdef __DREAMCAST__
+	return qfalse;
+#else
 	if( access( Sys_HomeConfigPath( ), F_OK ) == 0 )
 	{
 		// If the XDG config directory exists, prefer XDG layout, regardless
@@ -435,6 +444,7 @@ static qboolean Sys_ShouldUseLegacyHomePath(void)
 	}
 
 	return qtrue;
+#endif
 }
 
 /*
@@ -576,12 +586,16 @@ Sys_GetCurrentUser
 */
 char *Sys_GetCurrentUser( void )
 {
+#ifdef __DREAMCAST__
+	return "player";
+#else
 	struct passwd *p;
 
 	if ( (p = getpwuid( getuid() )) == NULL ) {
 		return "player";
 	}
 	return p->pw_name;
+#endif
 }
 
 #define MEM_THRESHOLD 96*1024*1024
@@ -655,6 +669,9 @@ Sys_Mkfifo
 */
 FILE *Sys_Mkfifo( const char *ospath )
 {
+#ifdef __DREAMCAST__
+	return NULL;
+#else
 	FILE	*fifo;
 	int	result;
 	int	fn;
@@ -676,6 +693,7 @@ FILE *Sys_Mkfifo( const char *ospath )
 	}
 
 	return fifo;
+#endif
 }
 
 /*
@@ -1185,8 +1203,10 @@ void Sys_GLimpInit( void )
 
 void Sys_SetFloatEnv(void)
 {
+#ifndef __DREAMCAST__
 	// rounding toward nearest
 	fesetround(FE_TONEAREST);
+#endif
 }
 
 /*
