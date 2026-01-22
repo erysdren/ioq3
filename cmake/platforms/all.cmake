@@ -1,3 +1,4 @@
+include(platforms/dreamcast)
 include(platforms/emscripten)
 include(platforms/linux)
 include(platforms/macos)
