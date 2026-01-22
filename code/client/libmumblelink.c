@@ -20,6 +20,8 @@
 
 */
 
+#ifdef USE_MUMBLE
+
 #ifdef WIN32
 #include <windows.h>
 #define uint32_t UINT32
@@ -186,3 +188,5 @@ int mumble_islinked(void)
 {
 	return lm != NULL;
 }
+
+#endif // USE_MUMBLE

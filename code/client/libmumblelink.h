@@ -20,6 +20,8 @@
 
 */
 
+#ifdef USE_MUMBLE
+
 int mumble_link(const char* name);
 int mumble_islinked(void);
 void mumble_update_coordinates(float fPosition[3], float fFront[3], float fTop[3]);
@@ -33,3 +35,5 @@ void mumble_set_context(const unsigned char* context, size_t len);
 void mumble_set_identity(const char* identity);
 
 void mumble_unlink(void);
+
+#endif // USE_MUMBLE
