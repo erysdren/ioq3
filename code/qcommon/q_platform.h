@@ -326,6 +326,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 #endif
 
+//============================================================= DREAMCAST ===
+
+#ifdef __DREAMCAST__
+
+#define OS_STRING "dreamcast"
+#define ID_INLINE inline
+#define PATH_SEP '/'
+
+#define ARCH_STRING "sh4"
+
+#define Q3_LITTLE_ENDIAN
+
+#define DLL_EXT ".so"
+
+#endif
+
 //================================================================== Q3VM ===
 
 #ifdef Q3_VM
