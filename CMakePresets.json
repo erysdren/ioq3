@@ -1,0 +1,57 @@
+{
+	"version": 10,
+	"cmakeMinimumRequired": {
+		"major": 3,
+		"minor": 21,
+		"patch": 0
+	},
+	"configurePresets": [
+		{
+			"name": "kOS",
+			"displayName": "kOS",
+			"binaryDir": "build-kos",
+			"hidden": true,
+			"generator": "Ninja",
+			"cacheVariables": {
+				"BUILD_SERVER": "OFF",
+				"BUILD_RENDERER_GL1": "ON",
+				"BUILD_RENDERER_GL2": "OFF",
+				"BUILD_GAME_LIBRARIES": "OFF",
+				"BUILD_GAME_QVMS": "OFF",
+				"USE_RENDERER_DLOPEN": "OFF",
+				"USE_OPENAL_DLOPEN": "OFF",
+				"USE_OPENAL": "OFF",
+				"USE_HTTP": "OFF",
+				"USE_VOIP": "OFF",
+				"USE_MUMBLE": "OFF",
+				"USE_NETWORK": "OFF"
+			}
+		},
+		{
+			"name": "kOSRelease",
+			"displayName": "kOSRelease",
+			"inherits": "kOS",
+			"cacheVariables": {
+				"CMAKE_BUILD_TYPE": "Release"
+			}
+		},
+		{
+			"name": "kOSDebug",
+			"displayName": "kOSDebug",
+			"inherits": "kOS",
+			"cacheVariables": {
+				"CMAKE_BUILD_TYPE": "Debug"
+			}
+		}
+	],
+	"buildPresets": [
+		{
+			"name": "kOSRelease",
+			"configurePreset": "kOSRelease"
+		},
+		{
+			"name": "kOSDebug",
+			"configurePreset": "kOSDebug"
+		}
+	]
+}
