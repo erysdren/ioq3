@@ -28,6 +28,7 @@ option(USE_CODEC_OPUS "Ogg Opus support" ON)
 option(USE_VOIP "Voice chat" ON)
 option(USE_MUMBLE "Mumble support" ON)
 option(USE_FREETYPE "Freetype font rendering" OFF)
+option(USE_NETWORK "Allow external connections" ON)
 
 option(USE_INTERNAL_LIBS "Use internally packaged libraries" ON)
 option(USE_INTERNAL_SDL "Use internal SDL binary (if available)" ${USE_INTERNAL_LIBS})

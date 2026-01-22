@@ -17,7 +17,6 @@ set(COMMON_SOURCES
     ${SOURCE_DIR}/qcommon/md5.c
     ${SOURCE_DIR}/qcommon/msg.c
     ${SOURCE_DIR}/qcommon/net_chan.c
-    ${SOURCE_DIR}/qcommon/net_ip.c
     ${SOURCE_DIR}/qcommon/huffman.c
     ${SOURCE_DIR}/qcommon/q_math.c
     ${SOURCE_DIR}/qcommon/q_shared.c
@@ -30,6 +29,12 @@ set(COMMON_SOURCES
     ${SOURCE_DIR}/qcommon/vm_sparc.c
     ${SOURCE_DIR}/qcommon/vm_x86.c
 )
+
+if(NOT USE_NETWORK)
+    list(APPEND COMMON_SOURCES ${SOURCE_DIR}/null/null_net.c)
+else()
+    list(APPEND COMMON_SOURCES ${SOURCE_DIR}/qcommon/net_ip.c)
+endif()
 
 disable_warnings(
     ${SOURCE_DIR}/qcommon/unzip.c
