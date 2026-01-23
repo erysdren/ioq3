@@ -45,6 +45,43 @@ extern void (APIENTRYP qglUnlockArraysEXT) (void);
 // GL function loader, based on https://gist.github.com/rygorous/16796a0c876cf8a5f542caddb55bce8a
 // get missing functions from code/SDL2/include/SDL_opengl.h
 
+#if defined(__DREAMCAST__)
+
+// OpenGL 1.0/1.1, OpenGL ES 1.0, and OpenGL 3.2 core profile
+#define QGL_1_1_PROCS \
+	GLE(void, BindTexture, GLenum target, GLuint texture) \
+	GLE(void, BlendFunc, GLenum sfactor, GLenum dfactor) \
+	GLE(void, ClearColor, GLclampf red, GLclampf green, GLclampf blue, GLclampf alpha) \
+	GLE(void, Clear, GLbitfield mask) \
+	GLE(void, ColorMask, GLboolean red, GLboolean green, GLboolean blue, GLboolean alpha) \
+	GLE(void, CullFace, GLenum mode) \
+	GLE(void, DeleteTextures, GLsizei n, const GLuint *textures) \
+	GLE(void, DepthFunc, GLenum func) \
+	GLE(void, DepthMask, GLboolean flag) \
+	GLE(void, Disable, GLenum cap) \
+	GLE(void, DrawArrays, GLenum mode, GLint first, GLsizei count) \
+	GLE(void, DrawElements, GLenum mode, GLsizei count, GLenum type, const GLvoid *indices) \
+	GLE(void, Enable, GLenum cap) \
+	GLE(void, Finish, void) \
+	GLE(void, Flush, void) \
+	GLE(void, GenTextures, GLsizei n, GLuint *textures ) \
+	GLE(GLenum, GetError, void) \
+	GLE(void, GetIntegerv, GLenum pname, GLint *params) \
+	GLE(const GLubyte *, GetString, GLenum name) \
+	GLE(void, LineWidth, GLfloat width) \
+	GLE(void, PolygonOffset, GLfloat factor, GLfloat units) \
+	GLE(void, ReadPixels, GLint x, GLint y, GLsizei width, GLsizei height, GLenum format, GLenum type, GLvoid *pixels) \
+	GLE(void, Scissor, GLint x, GLint y, GLsizei width, GLsizei height) \
+	GLE(void, StencilFunc, GLenum func, GLint ref, GLuint mask) \
+	GLE(void, StencilOp, GLenum fail, GLenum zfail, GLenum zpass) \
+	GLE(void, TexImage2D, GLenum target, GLint level, GLint internalFormat, GLsizei width, GLsizei height, GLint border, GLenum format, GLenum type, const GLvoid *pixels) \
+	GLE(void, TexParameterf, GLenum target, GLenum pname, GLfloat param) \
+	GLE(void, TexParameteri, GLenum target, GLenum pname, GLint param) \
+	GLE(void, TexSubImage2D, GLenum target, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLenum type, const GLvoid *pixels) \
+	GLE(void, Viewport, GLint x, GLint y, GLsizei width, GLsizei height) \
+
+#else
+
 // OpenGL 1.0/1.1, OpenGL ES 1.0, and OpenGL 3.2 core profile
 #define QGL_1_1_PROCS \
 	GLE(void, BindTexture, GLenum target, GLuint texture) \
@@ -82,6 +119,8 @@ extern void (APIENTRYP qglUnlockArraysEXT) (void);
 	GLE(void, TexSubImage2D, GLenum target, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLenum type, const GLvoid *pixels) \
 	GLE(void, Viewport, GLint x, GLint y, GLsizei width, GLsizei height) \
 
+#endif
+
 // OpenGL 1.0/1.1 and OpenGL ES 1.x but not OpenGL 3.2 core profile
 #define QGL_1_1_FIXED_FUNCTION_PROCS \
 	GLE(void, AlphaFunc, GLenum func, GLclampf ref) \
@@ -107,6 +146,24 @@ extern void (APIENTRYP qglUnlockArraysEXT) (void);
 	GLE(void, DrawBuffer, GLenum mode) \
 	GLE(void, PolygonMode, GLenum face, GLenum mode) \
 
+#if defined(__DREAMCAST__)
+
+// OpenGL 1.0/1.1 but not OpenGL 3.2 core profile or OpenGL ES 1.x
+#define QGL_DESKTOP_1_1_FIXED_FUNCTION_PROCS \
+	GLE(void, Begin, GLenum mode) \
+	GLE(void, Color3f, GLfloat red, GLfloat green, GLfloat blue) \
+	GLE(void, Color4ubv, const GLubyte *v) \
+	GLE(void, End, void) \
+	GLE(void, Frustum, GLdouble left, GLdouble right, GLdouble bottom, GLdouble top, GLdouble near_val, GLdouble far_val) \
+	GLE(void, Ortho, GLdouble left, GLdouble right, GLdouble bottom, GLdouble top, GLdouble near_val, GLdouble far_val) \
+	GLE(void, TexCoord2f, GLfloat s, GLfloat t) \
+	GLE(void, TexCoord2fv, const GLfloat *v) \
+	GLE(void, Vertex2f, GLfloat x, GLfloat y) \
+	GLE(void, Vertex3f, GLfloat x, GLfloat y, GLfloat z) \
+	GLE(void, Vertex3fv, const GLfloat *v) \
+
+#else
+
 // OpenGL 1.0/1.1 but not OpenGL 3.2 core profile or OpenGL ES 1.x
 #define QGL_DESKTOP_1_1_FIXED_FUNCTION_PROCS \
 	GLE(void, ArrayElement, GLint i) \
@@ -122,6 +179,20 @@ extern void (APIENTRYP qglUnlockArraysEXT) (void);
 	GLE(void, Vertex2f, GLfloat x, GLfloat y) \
 	GLE(void, Vertex3f, GLfloat x, GLfloat y, GLfloat z) \
 	GLE(void, Vertex3fv, const GLfloat *v) \
+
+#endif
+
+#if defined(__DREAMCAST__)
+
+// stub all this
+#define QGL_ES_1_1_PROCS
+#define QGL_ES_1_1_FIXED_FUNCTION_PROCS
+#define QGL_1_3_PROCS
+#define QGL_ARB_occlusion_query_PROCS
+#define QGL_1_5_PROCS
+#define QGL_2_0_PROCS
+
+#else
 
 // OpenGL ES 1.1 and OpenGL ES 2.0 but not desktop OpenGL 1.x
 #define QGL_ES_1_1_PROCS \
@@ -189,6 +260,8 @@ extern void (APIENTRYP qglUnlockArraysEXT) (void);
 	GLE(void, ValidateProgram, GLuint program) \
 	GLE(void, VertexAttribPointer, GLuint index, GLint size, GLenum type, GLboolean normalized, GLsizei stride, const void *pointer) \
 
+#endif
+
 // GL_NVX_gpu_memory_info
 #ifndef GL_NVX_gpu_memory_info
 #define GL_NVX_gpu_memory_info
@@ -237,9 +310,17 @@ extern void (APIENTRYP qglUnlockArraysEXT) (void);
 #define GL_HALF_FLOAT_ARB                   0x140B
 #endif
 
+#if defined(__DREAMCAST__)
+
+#define QGL_3_0_PROCS
+
+#else
+
 // OpenGL 3.0 specific
 #define QGL_3_0_PROCS \
 	GLE(const GLubyte *, GetStringi, GLenum name, GLuint index) \
+
+#endif
 
 // GL_ARB_framebuffer_object, built-in to OpenGL 3.0
 #define QGL_ARB_framebuffer_object_PROCS \
