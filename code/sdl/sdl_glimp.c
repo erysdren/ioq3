@@ -237,11 +237,19 @@ OpenGL ES compatibility
 ===============
 */
 static void APIENTRY GLimp_GLES_ClearDepth( GLclampd depth ) {
+#if defined(__DREAMCAST__)
+	qglClearDepth( depth );
+#else
 	qglClearDepthf( depth );
+#endif
 }
 
 static void APIENTRY GLimp_GLES_DepthRange( GLclampd near_val, GLclampd far_val ) {
+#if defined(__DREAMCAST__)
+	qglDepthRange( near_val, far_val );
+#else
 	qglDepthRangef( near_val, far_val );
+#endif
 }
 
 static void APIENTRY GLimp_GLES_DrawBuffer( GLenum mode ) {
@@ -263,8 +271,8 @@ static qboolean GLimp_GetProcAddresses( qboolean fixedFunction ) {
 	qboolean success = qtrue;
 	const char *version;
 
-#ifdef __SDL_NOGETPROCADDR__
-#define GLE( ret, name, ... ) qgl##name = gl#name;
+#if defined(__SDL_NOGETPROCADDR__) || defined(__DREAMCAST__)
+#define GLE( ret, name, ... ) qgl##name = gl##name;
 #else
 #define GLE( ret, name, ... ) qgl##name = (name##proc *) SDL_GL_GetProcAddress("gl" #name); \
 	if ( qgl##name == NULL ) { \
@@ -679,7 +687,7 @@ static int GLimp_SetMode(int mode, qboolean fullscreen, qboolean noborder, qbool
 			glConfig.stereoEnabled = qfalse;
 			SDL_GL_SetAttribute(SDL_GL_STEREO, 0);
 		}
-		
+
 		SDL_GL_SetAttribute( SDL_GL_DOUBLEBUFFER, 1 );
 
 #if 0 // if multisampling is enabled on X11, this causes create window to fail.
@@ -1065,7 +1073,7 @@ static void GLimp_InitExtensions( qboolean fixedFunction )
 	}
 }
 
-#define R_MODE_FALLBACK 3 // 640 * 480
+#define R_MODE_FALLBACK -2 // 640 * 480
 
 /*
 ===============
@@ -1134,6 +1142,7 @@ success:
 		glConfig.renderer_string[strlen(glConfig.renderer_string) - 1] = 0;
 	Q_strncpyz( glConfig.version_string, (char *) qglGetString (GL_VERSION), sizeof( glConfig.version_string ) );
 
+#if !defined(__DREAMCAST__)
 	// manually create extension list if using OpenGL 3
 	if ( qglGetStringi )
 	{
@@ -1161,6 +1170,7 @@ success:
 		}
 	}
 	else
+#endif
 	{
 		Q_strncpyz( glConfig.extensions_string, (char *) qglGetString (GL_EXTENSIONS), sizeof( glConfig.extensions_string ) );
 	}
@@ -1172,6 +1182,8 @@ success:
 
 	// This depends on SDL_INIT_VIDEO, hence having it here
 	ri.IN_Init( SDL_window );
+
+	SDL_GL_MakeCurrent(SDL_window, SDL_glContext);
 }
 
 
