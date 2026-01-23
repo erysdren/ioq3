@@ -131,7 +131,6 @@ void *R_GetCommandBufferReserved( int bytes, int reservedBytes ) {
 			ri.Error( ERR_FATAL, "R_GetCommandBuffer: bad size %i", bytes );
 		}
 		// if we run out of room, just start dropping commands
-		ri.Printf( PRINT_WARNING, "Failed to allocate render command of size %d\n", bytes );
 		return NULL;
 	}
 
@@ -319,8 +318,10 @@ void RE_BeginFrame( stereoFrame_t stereoFrame ) {
 		{
 			R_IssuePendingRenderCommands();
 			qglEnable( GL_STENCIL_TEST );
+#if !defined(__DREAMCAST__)
 			qglStencilMask( ~0U );
 			qglClearStencil( 0U );
+#endif
 			qglStencilFunc( GL_ALWAYS, 0U, ~0U );
 			qglStencilOp( GL_KEEP, GL_INCR, GL_INCR );
 		}

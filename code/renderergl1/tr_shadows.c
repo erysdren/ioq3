@@ -150,7 +150,9 @@ void RB_ShadowTessEnd( void ) {
 	int		i;
 	int		numTris;
 	vec3_t	lightDir;
+#if !defined(__DREAMCAST__)
 	GLboolean rgba[4];
+#endif
 
 	if ( glConfig.stencilBits < 4 ) {
 		return;
@@ -205,7 +207,9 @@ void RB_ShadowTessEnd( void ) {
 	qglColor3f( 0.2f, 0.2f, 0.2f );
 
 	// don't write to the color buffer
+#if !defined(__DREAMCAST__)
 	qglGetBooleanv(GL_COLOR_WRITEMASK, rgba);
+#endif
 	qglColorMask( GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE );
 
 	qglEnable( GL_STENCIL_TEST );
@@ -221,9 +225,12 @@ void RB_ShadowTessEnd( void ) {
 
 	R_RenderShadowEdges();
 
-
 	// reenable writing to the color buffer
+#if defined(__DREAMCAST__)
+	qglColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
+#else
 	qglColorMask(rgba[0], rgba[1], rgba[2], rgba[3]);
+#endif
 }
 
 

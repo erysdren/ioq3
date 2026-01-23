@@ -183,10 +183,12 @@ void R_DrawElements( int numIndexes, const glIndex_t *indexes ) {
 		return;
 	}
 
+#if !defined(__DREAMCAST__)
 	if ( primitives == 1 ) {
 		R_DrawStripElements( numIndexes,  indexes, qglArrayElement );
 		return;
 	}
+#endif
 	
 	if ( primitives == 3 ) {
 		R_DrawStripElements( numIndexes,  indexes, R_ArrayElementDiscrete );

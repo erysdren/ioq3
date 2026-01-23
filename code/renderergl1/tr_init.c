@@ -916,6 +916,7 @@ void GfxInfo_f( void )
 	ri.Printf( PRINT_ALL, "GL_RENDERER: %s\n", glConfig.renderer_string );
 	ri.Printf( PRINT_ALL, "GL_VERSION: %s\n", glConfig.version_string );
 	ri.Printf( PRINT_ALL, "GL_EXTENSIONS: " );
+#if !defined(__DREAMCAST__)
 	// glConfig.extensions_string is a limited length so get the full list directly
 	if ( qglGetStringi )
 	{
@@ -929,6 +930,7 @@ void GfxInfo_f( void )
 		}
 	}
 	else
+#endif
 	{
 		R_PrintLongString( (char *) qglGetString( GL_EXTENSIONS ) );
 	}

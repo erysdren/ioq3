@@ -471,6 +471,7 @@ void RB_BeginDrawingView (void) {
 	// we will only draw a sun if there was sky rendered in this view
 	backEnd.skyRenderedThisView = qfalse;
 
+#if !defined(__DREAMCAST__)
 	// clip to the plane of the portal
 	if ( backEnd.viewParms.isPortal ) {
 		float	plane[4];
@@ -492,6 +493,7 @@ void RB_BeginDrawingView (void) {
 	} else {
 		qglDisable (GL_CLIP_PLANE0);
 	}
+#endif
 }
 
 
