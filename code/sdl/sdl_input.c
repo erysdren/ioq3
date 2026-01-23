@@ -1311,7 +1311,9 @@ void IN_Init( void *windowData )
 	SDL_EventState( SDL_DROPFILE, SDL_ENABLE );
 #endif
 
+#if !defined(__DREAMCAST__)
 	SDL_StartTextInput( );
+#endif
 
 	mouseAvailable = ( in_mouse->value != 0 );
 	IN_DeactivateMouse( Cvar_VariableIntegerValue( "r_fullscreen" ) != 0 );
@@ -1331,7 +1333,9 @@ IN_Shutdown
 */
 void IN_Shutdown( void )
 {
+#if !defined(__DREAMCAST__)
 	SDL_StopTextInput( );
+#endif
 
 	IN_DeactivateMouse( Cvar_VariableIntegerValue( "r_fullscreen" ) != 0 );
 	mouseAvailable = qfalse;
