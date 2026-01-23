@@ -610,6 +610,39 @@ vm_t *VM_Create( const char *module, intptr_t (*systemCalls)(intptr_t *),
 
 	Q_strncpyz(vm->name, module, sizeof(vm->name));
 
+#ifdef Q3_VM_STATIC
+	if (strcmp(vm->name, "qagame") == 0)
+	{
+		extern intptr_t qagame_vmMain( int command, int arg0, int arg1, int arg2, int arg3, int arg4, int arg5, int arg6, int arg7, int arg8, int arg9, int arg10, int arg11  );
+		extern void qagame_dllEntry( intptr_t (QDECL *syscallptr)( intptr_t arg,... ) );
+
+		qagame_dllEntry(systemCalls);
+
+		vm->entryPoint = qagame_vmMain;
+		vm->dllHandle = qagame_dllEntry;
+	}
+	else if (strcmp(vm->name, "cgame") == 0)
+	{
+		extern intptr_t cgame_vmMain( int command, int arg0, int arg1, int arg2, int arg3, int arg4, int arg5, int arg6, int arg7, int arg8, int arg9, int arg10, int arg11  );
+		extern void cgame_dllEntry( intptr_t (QDECL *syscallptr)( intptr_t arg,... ) );
+
+		cgame_dllEntry(systemCalls);
+
+		vm->entryPoint = cgame_vmMain;
+		vm->dllHandle = cgame_dllEntry;
+	}
+	else if (strcmp(vm->name, "ui") == 0)
+	{
+		extern intptr_t ui_vmMain( int command, int arg0, int arg1, int arg2, int arg3, int arg4, int arg5, int arg6, int arg7, int arg8, int arg9, int arg10, int arg11  );
+		extern void ui_dllEntry( intptr_t (QDECL *syscallptr)( intptr_t arg,... ) );
+
+		ui_dllEntry(systemCalls);
+
+		vm->entryPoint = ui_vmMain;
+		vm->dllHandle = ui_dllEntry;
+	}
+#endif
+
 	do
 	{
 		retval = FS_FindVM(&startSearch, filename, sizeof(filename), module, (interpret == VMI_NATIVE));

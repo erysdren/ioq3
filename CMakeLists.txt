@@ -17,6 +17,7 @@ option(BUILD_RENDERER_GL1 "Build GL1 renderer" ON)
 option(BUILD_RENDERER_GL2 "Build GL2 renderer" ON)
 option(BUILD_GAME_LIBRARIES "Build game module libraries" ON)
 option(BUILD_GAME_QVMS "Build game module qvms" ON)
+option(BUILD_GAME_STATIC "Build game modules statically" OFF)
 option(BUILD_STANDALONE "Build binaries for standalone games" OFF)
 
 option(USE_RENDERER_DLOPEN "Dynamically load the renderer(s)" ON)
